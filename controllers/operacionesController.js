@@ -1,6 +1,6 @@
 const controller= {};
 
-controller.list = (req, res, next) => {
+controller.list = (req, res) => {
     req.getConnection((err, conn) =>  {
         conn.query('SELECT * FROM operaciones',  (err, users) => {
             if(err){
@@ -16,7 +16,7 @@ controller.list = (req, res, next) => {
 };
 
 
-controller.listEgresos = (req, res, next) => {
+controller.listEgresos = (req, res) => {
     req.getConnection((err, conn) =>  {
         conn.query('SELECT * FROM operaciones WHERE TIPO="egreso"',  (err, users) => {
             if(err){
@@ -31,7 +31,7 @@ controller.listEgresos = (req, res, next) => {
     })
 };
 
-controller.listIngresos = (req, res, next) => {
+controller.listIngresos = (req, res) => {
     req.getConnection((err, conn) =>  {
         conn.query('SELECT * FROM operaciones WHERE TIPO="ingreso"',  (err, users) => {
             if(err){
@@ -46,36 +46,40 @@ controller.listIngresos = (req, res, next) => {
     })
 };
 
-controller.insert = (req, res, next) => {
+controller.insert = (req, res) => {
     req.getConnection((err, conn) =>  {
-        conn.query('INSERT INTO operaciones (concepto , monto , fecha , tipo, idUser) VALUES(?, ?, ?,?, ?)', [req.body.concepto, req.body.monto, req.body.fecha, req.body.tipo, req.body.idUser]  , (err, operacion) =>  {
+        var query = conn.query('INSERT INTO operaciones (concepto , monto , fecha , tipo, idUser) VALUES(?, ?, ?,?, ?)', [req.body.concepto, req.body.monto, req.body.fecha, req.body.tipo, req.body.idUser]  , (err, operacion) =>  {
             if(err){
-                res.json(err);
+                res.status(500).json(err);
+                return;
             } 
             res.json("se inserto correctamente la operaciones con el ID " + operacion.insertId);
             console.log(req.body.idUser);
-        })
+        });
+        console.log(query);
     })
 };
 
-controller.delete = (req, res, next) => {
+controller.delete = (req, res) => {
     const { id } = req.params;
     req.getConnection((err, conn) =>  {
         conn.query( 'DELETE FROM operaciones WHERE nro_id= ?', [id], (err, operacion) =>  {
             if(err){
-                res.json(err);
+                res.status(500).json(err);
+                return;
             } 
             res.json("se elimino correctamente la operacion con id " + id);
         })
     })
 };
 
-controller.getOperacion = (req, res, next) => {
+controller.getOperacion = (req, res) => {
     const { id } = req.params;
     req.getConnection((err, conn) =>  {
         conn.query( 'SELECT * FROM operaciones WHERE nro_id= ?', [id], (err, operacion) =>  {
             if(err){
-                res.json(err);
+                res.status(500).json(err);
+                return;
             } 
             res.json(operacion);
         })
@@ -92,7 +96,8 @@ controller.update = (req, res) => {
         req.getConnection((err, conn) => {
         conn.query('UPDATE operaciones set ? where nro_id = ?', [newOperation, id], (err, user) => {
             if(err){
-                res.json(err);
+                res.status(500).json(err);
+                return;
             } 
             res.json("se actualizo correctamente la operacion con id " + id);
         })    

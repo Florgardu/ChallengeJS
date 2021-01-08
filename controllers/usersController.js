@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 
 
-controller.list = (req, res, next) => {
+controller.list = (req, res) => {
     req.getConnection((err, conn) =>  {
         conn.query('SELECT * FROM user',  (err, users) => {
             if(err){
@@ -18,7 +18,7 @@ controller.list = (req, res, next) => {
     })
 };
 
-controller.signIn = (req, res, next) => {
+controller.signIn = (req, res) => {
     const user= req.body;
     user.rol= "customer";
 
@@ -34,7 +34,7 @@ controller.signIn = (req, res, next) => {
    
 
 
-controller.login= (req, res, next) => {
+controller.login= (req, res) => {
     const { email, contrasena } = req.body;
     req.getConnection((err, conn) =>  {
         conn.query( 'SELECT * FROM user WHERE email= ?', [email], (err, user) =>  {
@@ -68,7 +68,7 @@ controller.login= (req, res, next) => {
 
 
 
-controller.delete = (req, res, next) => {
+controller.delete = (req, res) => {
     const { id } = req.params;
     req.getConnection((err, conn) =>  {
         conn.query( 'DELETE FROM user WHERE nro_id= ?', [id], (err, user) =>  {
