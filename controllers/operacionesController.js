@@ -48,11 +48,12 @@ controller.listIngresos = (req, res, next) => {
 
 controller.insert = (req, res, next) => {
     req.getConnection((err, conn) =>  {
-        conn.query('INSERT INTO operaciones (concepto , monto , fecha , tipo) VALUES(?, ?, ?,?)', [req.body.concepto, req.body.monto, req.body.fecha, req.body.tipo]  , (err, operacion) =>  {
+        conn.query('INSERT INTO operaciones (concepto , monto , fecha , tipo, idUser) VALUES(?, ?, ?,?, ?)', [req.body.concepto, req.body.monto, req.body.fecha, req.body.tipo, req.body.idUser]  , (err, operacion) =>  {
             if(err){
                 res.json(err);
             } 
             res.json("se inserto correctamente la operaciones con el ID " + operacion.insertId);
+            console.log(req.body.idUser);
         })
     })
 };

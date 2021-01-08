@@ -49,8 +49,7 @@ controller.login= (req, res, next) => {
                    // return res.json("Ok");
 
                 // Creacion de token al logearse
-                const token = jwt.sign({ id: user.nro_id, rol: user.rol }, config.secret, { expiresIn: "1d" });
-
+                const token = jwt.sign({ id: user[0].nro_id}, config.secret, { expiresIn: "1d" });
                 //HACER EL ARCHIVO CONFIG SECRET 
                 // Respuesta enviando token
                 res.json({ autorizacion: true, token: token, mensaje: "Sesión inciada" });
