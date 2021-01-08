@@ -1,7 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const operacionesController = require('../controllers/operacionesController');
-
+const operacionesController = require("../controllers/operacionesController");
 
 /* GET users listing. */
 router.get("/", operacionesController.list);
@@ -13,10 +12,8 @@ router.get("/ingresos", operacionesController.listIngresos);
 
 router.post("/", operacionesController.insert);
 
-router.delete("/:id",operacionesController.delete );
+router.delete("/:id", operacionesController.delete);
 
-router.put("/:id",operacionesController.update )
-
-
+router.put("/:id", operacionesController.update);
 
 module.exports = router;
