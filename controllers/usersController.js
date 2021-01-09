@@ -27,9 +27,9 @@ controller.signIn = (req, res) => {
       [req.body.username, req.body.email, req.body.contrasena, "customer"],
       (err, user) => {
         if (err) {
-          res.json(err);
+          res.json({err});
         }
-        res.json("Usuario generado correctamente con ID: " + user.insertId);
+        res.json({message: `Usuario generado correctamente con ID: ${user.insertId}`});
       }
     );
   });
@@ -40,7 +40,7 @@ controller.login = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query("SELECT * FROM user WHERE email= ?", [email], (err, user) => {
       if (err) {
-        return res.json(err);
+        return res.json({err});
       }
       if (user.length === 0) {
         return res.status(404).send("User o contraseña incorrecta");
@@ -61,7 +61,7 @@ controller.login = (req, res) => {
             mensaje: "Sesión inciada",
           });
         } else {
-          return res.status(404).send("User o contraseña incorrecta");
+          return res.status(404).send("Usuario o contraseña incorrecta");
         }
       }
     });
@@ -73,9 +73,9 @@ controller.delete = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query("DELETE FROM user WHERE nro_id= ?", [id], (err, user) => {
       if (err) {
-        res.json(err);
+        res.json({err});
       }
-      res.json("se elimino correctamente el user con id " + user.nro_id);
+      res.json({message: `se elimino correctamente el user con id ${user.nro_id}`});
     });
   });
 };
