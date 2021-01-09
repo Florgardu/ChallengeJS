@@ -83,8 +83,7 @@ controller.delete = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
       "DELETE FROM operaciones WHERE nro_id= ?",
-      [id],
-      (err, operacion) => {
+      [id], (err) => {
         if (err) {
           res.status(500).json(err);
           return;
@@ -122,7 +121,7 @@ controller.update = (req, res) => {
       conn.query(
         "UPDATE operaciones set ? where nro_id = ?",
         [newOperation, id],
-        (err, user) => {
+        (err) => {
           if (err) {
             res.status(500).json(err);
             return;
