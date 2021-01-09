@@ -55,6 +55,11 @@ controller.listIngresos = (req, res) => {
 };
 
 controller.insert = (req, res) => {
+    if(!(req.body.tipo === 'EGRESO' || req.body.tipo === 'INGRESO')){
+        res.status(400).end();
+        return;
+    }
+
   req.getConnection((err, conn) => {
     conn.query(
       "INSERT INTO operaciones (concepto, monto, fecha, tipo, idUser) VALUES(?, ?, ?,?, ?)",
